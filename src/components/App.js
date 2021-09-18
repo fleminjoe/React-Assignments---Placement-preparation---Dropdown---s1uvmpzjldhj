@@ -138,11 +138,101 @@ const states = [{
 }];
 
 
+function StateList(props){
+
+	
+	return (
+		<option value={props.index}>
+			{props.value.name}
+		</option>
+	)
+}
+
+
 function App() 
 {
 	// Do not alter/remove main div
+	const [selectedState, setSelectState] = useState(0)
+	const [selectedCity, setSelectCity] = useState(0)
+	const [selectedLand, setSelectLand] = useState(0)
+	
+
 	return (
 	<div id="main">
+		<select id="state" onChange={(e)=>{
+			setSelectState(e.target.value);
+			setSelectCity(0);
+			setSelectLand(0);
+
+		}}>
+			{
+				states.map((value,index)=>{
+					return (<StateList key={value.name} value={value} index={index} />)
+				})
+			}
+			
+		</select>
+		
+		<select id="city" onChange={(e)=>{
+			setSelectCity(e.target.value);
+			setSelectLand(0);
+		}}>
+			{
+				states[selectedState].city.map((value,index)=>{
+					return(
+						<option key={value.name} value={index}>
+							{value.name}
+						</option>
+					)
+				})
+			}
+		</select>
+	
+		<select id="landmark" onChange={(e)=>{
+			setSelectLand(e.target.value)
+		}}>
+			{
+				states[selectedState].city[selectedCity].landmarks.map((value,index)=>{
+					return(
+						<option key={value.name} value={index}>
+							{value.name}
+						</option>
+					)
+				})
+			}
+			
+		</select>
+		<div id="state-title">
+			{states[selectedState].name}
+		</div>
+		<div id="state-description">
+			{states[selectedState].description}	
+		</div>
+		{/* <div id="state-title">
+			
+		</div> */}
+
+
+		<div id="city-title">
+			{states[selectedState].city[selectedCity].name}
+		</div>
+		<div id="city-description">
+			{states[selectedState].city[selectedCity].description}	
+		</div>
+		{/* <div id="city-title">
+			
+		</div> */}
+
+		
+		<div id="landmark-title">
+			{states[selectedState].city[selectedCity].landmarks[selectedLand].name}
+		</div>
+		<div id="landmark-description">
+		{states[selectedState].city[selectedCity].landmarks[selectedLand].description}
+		</div>
+		{/* <div id="landmark-title">
+			
+		</div> */}
 		
 	</div>
 	);
